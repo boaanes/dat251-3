@@ -28,8 +28,12 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
           title: 'Utstyr',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            primarySwatch: Colors.blue,
+            colorScheme: ColorScheme.fromSwatch().copyWith(
+              primary: const Color(0xff2C4C16),
+              secondary: const Color(0xffA9BE98),
+            ),
           ),
           home: Home(),
           routes: {

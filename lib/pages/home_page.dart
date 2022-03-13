@@ -17,23 +17,22 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<User?>(context);
     return Material(
         child: utstyrScaffold(
             context,
             Column(
               children: [
-                Text('Home page'),
-                ElevatedButton(
-                  onPressed: () {
-                    standardNavigator(context, LoginPage());
-                  },
-                  child: Text('Login page'),
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      AuthenticateService().signOut();
-                    },
-                    child: const Text('Logg ut')),
+                Text(user?.email ?? 'Not logged in'),
+                (user?.email != null)
+                    ? Center(
+                        child: ElevatedButton(
+                            onPressed: () {
+                              AuthenticateService().signOut();
+                            },
+                            child: const Text('Logg ut')),
+                      )
+                    : Container(),
               ],
             )));
   }
