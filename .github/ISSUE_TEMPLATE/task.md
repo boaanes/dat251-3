@@ -1,7 +1,7 @@
 ---
 name: Task
 about: A task for feature implementation
-title: "[task] "
+title: "[task] [Xp]"
 
 ---
 
