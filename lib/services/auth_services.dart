@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthenticateService {
   final FirebaseAuth? auth;
@@ -48,5 +50,19 @@ class AuthenticateService {
 
   Future signOut() async {
     await FirebaseAuth.instance.signOut();
+  }
+
+  Future registerUserDataFirstTime(firstName, lastName, phone, email, id) {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    return users.doc(id).set({
+      'firstName': firstName,
+      'lastName': lastName,
+      'phone': phone,
+      'email': email,
+      'id': id,
+      'rating': [],
+      'ranking': 0,
+      'listings': [],
+    });
   }
 }

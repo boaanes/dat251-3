@@ -1,13 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:utstyr/pages/createListing_page.dart';
 import 'package:utstyr/pages/home_page.dart';
 import 'package:utstyr/services/auth_services.dart';
 
 import '../pages/login_page.dart';
 import '../widgets.dart';
 
-//EDEDED
 //Scaffold widget to use throughout the app
 Widget utstyrScaffold(context, bodyContent) {
   final authStatus = Provider.of<User?>(context);
@@ -24,20 +24,29 @@ Widget utstyrScaffold(context, bodyContent) {
             style: TextStyle(color: Color(0xff737373)),
           )),
           onTap: () {
-            print(authStatus?.email);
+            standardNavigator(context, CreateListing());
             //TODO: Navigator to create annonse
           },
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(50, 10, 100, 10),
-          child: ElevatedButton(
-              style: ElevatedButton.styleFrom(primary: const Color(0xff2C4C16)),
-              onPressed: () {
-                (authStatus?.uid != null)
-                    ? AuthenticateService().signOut()
-                    : standardNavigator(context, LoginPage());
-              },
-              child: Text((authStatus?.uid != null) ? 'Logg ut' : 'Logg inn')),
+          padding: const EdgeInsets.fromLTRB(50, 10, 75, 10),
+          child: authStatus?.uid != null
+              ? ElevatedButton(
+                  key: const ValueKey('signOutNavButton'),
+                  style: ElevatedButton.styleFrom(
+                      primary: const Color(0xff2C4C16)),
+                  onPressed: () {
+                    AuthenticateService().signOut();
+                  },
+                  child: Text('Logg ut'))
+              : ElevatedButton(
+                  key: const ValueKey('loginNavButton'),
+                  style: ElevatedButton.styleFrom(
+                      primary: const Color(0xff2C4C16)),
+                  onPressed: () {
+                    standardNavigator(context, LoginPage());
+                  },
+                  child: Text('Logg inn')),
         ) //TODO: Change according to log in state
       ],
       title: Padding(
