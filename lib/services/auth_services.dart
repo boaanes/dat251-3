@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthenticateService {
-  FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth? auth;
+  AuthenticateService({this.auth});
+
+  Stream<User?> get user => FirebaseAuth.instance.authStateChanges();
 
   Future createUserWithEmailAndPassword(email, password) async {
     try {
@@ -24,9 +27,16 @@ class AuthenticateService {
 
   Future signInWithEmailAndPassword(email, password) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-      return userCredential;
+      if (auth != null) {
+        UserCredential? userCredential = await auth?.signInWithEmailAndPassword(
+            email: email, password: password);
+        return userCredential;
+      } else {
+        var currInstance = FirebaseAuth.instance;
+        UserCredential userCredential = await currInstance
+            .signInWithEmailAndPassword(email: email, password: password);
+        return userCredential;
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
