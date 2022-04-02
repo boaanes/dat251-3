@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:utstyr/pages/login_page.dart';
+import 'package:utstyr/pages/messages_page.dart';
 import 'package:utstyr/widgets.dart';
 import 'package:utstyr/widgets/bottombar.dart';
 
@@ -28,16 +29,6 @@ class _HomeState extends State<Home> {
                 padding: const EdgeInsets.fromLTRB(100, 0, 100, 0),
                 child: Column(
                   children: [
-                    Text(user?.email ?? 'Not logged in'),
-                    (user?.email != null)
-                        ? Center(
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  AuthenticateService().signOut();
-                                },
-                                child: const Text('Logg ut')),
-                          )
-                        : Container(),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                       child: Stack(
@@ -362,6 +353,12 @@ class _HomeState extends State<Home> {
                             )
                           ],
                         )),
+                    Text(user?.email ?? 'Not logged in'),
+                    ElevatedButton(
+                        onPressed: () {
+                          standardNavigator(context, RoomsPage());
+                        },
+                        child: const Text('Chats')),
                     bottombar()
                   ],
                 ),
