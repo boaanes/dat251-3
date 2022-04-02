@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:bubble/bubble.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -130,46 +132,55 @@ class _RoomsPageState extends State<RoomsPage> {
                           );
                         }
 
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: ListView.builder(
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (context, index) {
-                              final room = snapshot.data![index];
+                        return Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border(
+                                  right:
+                                      BorderSide(color: Colors.grey.shade300),
+                                  top:
+                                      BorderSide(color: Colors.grey.shade300))),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: ListView.builder(
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                final room = snapshot.data![index];
 
-                              return GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    selectedIndex = index;
-                                    room1 = room;
-                                  });
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: selectedIndex == index
-                                            ? Colors.grey[300]
-                                            : null,
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 8,
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        _buildAvatar(room),
-                                        Text(
-                                          room.name ?? '',
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                      ],
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      selectedIndex = index;
+                                      room1 = room;
+                                    });
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: selectedIndex == index
+                                              ? Colors.grey[300]
+                                              : null,
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                        vertical: 8,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          _buildAvatar(room),
+                                          Text(
+                                            room.name ?? '',
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           ),
                         );
                       },
@@ -177,44 +188,58 @@ class _RoomsPageState extends State<RoomsPage> {
                   ),
                   Expanded(
                     flex: 2,
-                    child: StreamBuilder<types.Room>(
-                      initialData: room1,
-                      stream: FirebaseChatCore.instance.room(room1!.id),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return Container(
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.only(
-                              bottom: 200,
-                            ),
-                            child: const Text('No chat selected'),
-                          );
-                        }
-                        return StreamBuilder<List<types.Message>>(
-                          initialData: const [],
-                          stream: FirebaseChatCore.instance
-                              .messages(snapshot.data!),
-                          builder: (context, snapshot) {
-                            return SafeArea(
-                              bottom: true,
-                              child: Chat(
-                                bubbleBuilder: _bubbleBuilder,
-                                //isAttachmentUploading: _isAttachmentUploading,
-                                messages: snapshot.data ?? [],
-                                //onAttachmentPressed: _handleAtachmentPressed,
-                                //onMessageTap: _handleMessageTap,
-                                //onPreviewDataFetched: _handlePreviewDataFetched,
-                                onSendPressed: _handleSendPressed,
-                                user: types.User(
-                                  id: FirebaseChatCore
-                                          .instance.firebaseUser?.uid ??
-                                      '',
-                                ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border(
+                              top: BorderSide(color: Colors.grey.shade300))),
+                      child: StreamBuilder<types.Room>(
+                        initialData: room1,
+                        stream: FirebaseChatCore.instance.room(room1!.id),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return Container(
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.only(
+                                bottom: 200,
                               ),
+                              child: const Text('No chat selected'),
                             );
-                          },
-                        );
-                      },
+                          }
+                          return StreamBuilder<List<types.Message>>(
+                            initialData: const [],
+                            stream: FirebaseChatCore.instance
+                                .messages(snapshot.data!),
+                            builder: (context, snapshot) {
+                              return SafeArea(
+                                bottom: true,
+                                child: Chat(
+                                  theme: DefaultChatTheme(
+                                    inputTextColor: Colors.black,
+                                    inputMargin:
+                                        EdgeInsets.fromLTRB(20, 0, 20, 10),
+                                    inputBorderRadius:
+                                        BorderRadius.circular(20),
+                                    inputBackgroundColor:
+                                        Color.fromARGB(237, 237, 237, 237),
+                                  ),
+                                  bubbleBuilder: _bubbleBuilder,
+                                  //isAttachmentUploading: _isAttachmentUploading,
+                                  messages: snapshot.data ?? [],
+                                  //onAttachmentPressed: _handleAtachmentPressed,
+                                  //onMessageTap: _handleMessageTap,
+                                  //onPreviewDataFetched: _handlePreviewDataFetched,
+                                  onSendPressed: _handleSendPressed,
+                                  user: types.User(
+                                    id: FirebaseChatCore
+                                            .instance.firebaseUser?.uid ??
+                                        '',
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ],
