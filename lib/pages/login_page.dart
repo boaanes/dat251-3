@@ -520,7 +520,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 .then(
                                               (value) {
                                                 if (value != null) {
-                                                  /*  AuthenticateService()
+                                                  AuthenticateService()
                                                       .registerUserDataFirstTime(
                                                           _firstNameController
                                                               .text,
@@ -532,17 +532,7 @@ class _LoginPageState extends State<LoginPage> {
                                                   _emailController.clear();
                                                   _passwordController.clear();
                                                   _confirmPasswordController
-                                                      .clear();*/
-                                                  FirebaseChatCore.instance
-                                                      .createUserInFirestore(
-                                                          types.User(
-                                                    firstName: 'John',
-                                                    id: value.user
-                                                        .uid, // UID from Firebase Authentication
-                                                    imageUrl:
-                                                        'https://i.pravatar.cc/300',
-                                                    lastName: 'Doe',
-                                                  ));
+                                                      .clear();
                                                 }
                                               },
                                             );
