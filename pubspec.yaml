@@ -43,6 +43,12 @@ dependencies:
   flutter_firebase_chat_core: ^1.5.2
   flutter_chat_ui: ^1.5.5
   bubble: ^1.2.1
+  carousel_slider: ^4.0.0
+  table_calendar: ^3.0.5
+  syncfusion_flutter_datepicker: ^19.4.56
+  firebase_storage: ^10.2.10
+  google_maps_flutter: ^2.1.3
+  flutter_map: ^0.14.0
 
 dev_dependencies:
   flutter_driver:
@@ -73,6 +79,10 @@ flutter:
   assets:
     - assets/images/boxwater.png
     - assets/images/kajakk.png
+    - assets/images/splitboard1.png
+    - assets/images/splitboard2.png
+    - assets/images/splitboard3.png
+    - assets/images/splitboard4.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
