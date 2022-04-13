@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:utstyr/pages/login_page.dart';
+import 'package:utstyr/pages/detailedListing_page.dart';
 import 'package:utstyr/pages/messages_page.dart';
 import 'package:utstyr/widgets.dart';
 import 'package:utstyr/widgets/bottombar.dart';
@@ -207,48 +208,57 @@ class _HomeState extends State<Home> {
                           children: [
                             Padding(
                               padding: EdgeInsets.fromLTRB(25, 25, 25, 25),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25),
-                                  color: Colors.white,
-                                ),
-                                width: 275,
-                                height: 300,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                testList[0]['title'],
-                                                style: TextStyle(fontSize: 17),
-                                              ),
-                                              Text(
-                                                'Størrelse: ' +
-                                                    testList[0]['størrelse'],
-                                                style: TextStyle(fontSize: 13),
-                                              )
-                                            ],
-                                          ),
-                                          Text(
-                                            testList[0]['price'],
-                                            style: TextStyle(fontSize: 13),
-                                          ),
-                                        ],
-                                      ),
-                                      Expanded(
-                                          child: Image.asset(
-                                        'assets/images/kajakk.png',
-                                        filterQuality: FilterQuality.medium,
-                                      ))
-                                    ],
+                              child: new GestureDetector(
+                                onTap: () {
+                                  print("Container clicked");
+                                  standardNavigator(
+                                      context, SingleListingPage());
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    color: Colors.white,
+                                  ),
+                                  width: 275,
+                                  height: 300,
+                                  child: new Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  testList[0]['title'],
+                                                  style:
+                                                      TextStyle(fontSize: 17),
+                                                ),
+                                                Text(
+                                                  'Størrelse: ' +
+                                                      testList[0]['størrelse'],
+                                                  style:
+                                                      TextStyle(fontSize: 13),
+                                                )
+                                              ],
+                                            ),
+                                            Text(
+                                              testList[0]['price'],
+                                              style: TextStyle(fontSize: 13),
+                                            ),
+                                          ],
+                                        ),
+                                        Expanded(
+                                            child: Image.asset(
+                                          'assets/images/kajakk.png',
+                                          filterQuality: FilterQuality.medium,
+                                        ))
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
