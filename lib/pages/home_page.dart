@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:utstyr/classes/listings.dart';
+import 'package:utstyr/pages/listing_page.dart';
 import 'package:utstyr/pages/login_page.dart';
+import 'package:utstyr/services/firestore_services.dart';
 import 'package:utstyr/pages/messages_page.dart';
 import 'package:utstyr/widgets.dart';
 import 'package:utstyr/widgets/bottombar.dart';
@@ -19,6 +24,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    var allListings = Provider.of<List<Listings>>(context); //Listings provider
     var user = Provider.of<User?>(context); //User provider
     return Material(
         child: utstyrScaffold(
@@ -63,27 +69,30 @@ class _HomeState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           InkWell(
+                              onTap: () => standardNavigator(
+                                  context, ListingPage(category: 'topptur')),
                               child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: Colors.white,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color: Colors.white,
+                                      ),
+                                      width: 80,
+                                      height: 70,
+                                      child: Icon(
+                                        Icons.nordic_walking,
+                                        size: 35,
+                                        color: Color(0xff2C4C16),
+                                      ),
+                                    ),
                                   ),
-                                  width: 80,
-                                  height: 70,
-                                  child: Icon(
-                                    Icons.nordic_walking,
-                                    size: 35,
-                                    color: Color(0xff2C4C16),
-                                  ),
-                                ),
-                              ),
-                              Text("Topptur")
-                            ],
-                          )),
+                                  Text("Topptur")
+                                ],
+                              )),
                           InkWell(
                               child: Column(
                             children: [
@@ -107,27 +116,35 @@ class _HomeState extends State<Home> {
                             ],
                           )),
                           InkWell(
+                              onTap: () {
+                                standardNavigator(
+                                    context,
+                                    ListingPage(
+                                      category: 'snowboard',
+                                    ));
+                              },
                               child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: Colors.white,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color: Colors.white,
+                                      ),
+                                      width: 80,
+                                      height: 70,
+                                      child: Icon(
+                                        Icons.snowboarding,
+                                        size: 35,
+                                        color: Color(0xff2C4C16),
+                                      ),
+                                    ),
                                   ),
-                                  width: 80,
-                                  height: 70,
-                                  child: Icon(
-                                    Icons.snowboarding,
-                                    size: 35,
-                                    color: Color(0xff2C4C16),
-                                  ),
-                                ),
-                              ),
-                              Text("Snowboard")
-                            ],
-                          )),
+                                  Text("Snowboard")
+                                ],
+                              )),
                           InkWell(
                               child: Column(
                             children: [
@@ -345,7 +362,7 @@ class _HomeState extends State<Home> {
                                           child: Image.asset(
                                         'assets/images/kajakk.png',
                                         filterQuality: FilterQuality.medium,
-                                      ))
+                                      )),
                                     ],
                                   ),
                                 ),
