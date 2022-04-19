@@ -2,8 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:utstyr/classes/listings.dart';
 import 'package:utstyr/pages/home_page.dart';
 import 'package:utstyr/pages/login_page.dart';
+import 'package:utstyr/services/firestore_services.dart';
 import 'config/firebase_options.dart';
 
 void main() async {
@@ -25,6 +27,10 @@ class MyApp extends StatelessWidget {
           initialData: null,
           value: FirebaseAuth.instance.authStateChanges(),
         ),
+        StreamProvider<List<Listings>>.value(
+          initialData: [],
+          value: FirestoreServices().getListings(),
+        )
       ],
       child: MaterialApp(
           title: 'Utstyr',
