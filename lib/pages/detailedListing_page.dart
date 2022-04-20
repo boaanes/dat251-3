@@ -1,4 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:utstyr/classes/listings.dart';
+import 'package:utstyr/services/firestore_services.dart';
 import 'package:utstyr/widgets.dart';
 import 'package:utstyr/widgets/bottombar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -6,11 +11,17 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_map/flutter_map.dart';
 import "package:latlong2/latlong.dart";
+import 'package:utstyr/widgets/renterInfo.dart';
+import 'package:expandable/expandable.dart';
 
 import '../services/auth_services.dart';
 
 class SingleListingPage extends StatefulWidget {
-  SingleListingPage({Key? key}) : super(key: key);
+  final String listingId;
+  SingleListingPage({
+    Key? key,
+    required this.listingId,
+  }) : super(key: key);
   static const String id = 'SingleListingPage'; //Page identifier for navigation
 
   @override
@@ -20,8 +31,18 @@ class SingleListingPage extends StatefulWidget {
 class _SingleListingPageState extends State<SingleListingPage> {
   @override
   int price = 500;
+  int transactionPrice = 500;
+  DateTime finalStart = DateTime.now();
+  DateTime finalEnd = DateTime.now();
   CarouselController carouselController = CarouselController();
   Widget build(BuildContext context) {
+    Map<String, bool> values = {
+      'Splitboard - 450 kr': false,
+      'Teleskopstaver - 50 kr ': false,
+      'Feller - 50 kr': false,
+      'Pakkepris - 500 kr': true,
+    };
+    var allListings = Provider.of<List<Listings>>(context);
     return Material(
         child: utstyrScaffold(
             context,
@@ -121,14 +142,15 @@ class _SingleListingPageState extends State<SingleListingPage> {
                                   width: 750,
                                   height: 400,
                                   child: Padding(
-                                    padding:
-                                        EdgeInsets.fromLTRB(25, 25, 25, 25),
-                                    child: Text(
-                                      _getDescription(),
+                                    padding: EdgeInsets.all(25),
+                                    child: SingleChildScrollView(
+                                        child: Text(
+                                      _getDescription() + _getDescription(),
+                                      softWrap: true,
                                       textAlign: TextAlign.left,
                                       style:
                                           TextStyle(fontSize: 16, height: 1.6),
-                                    ),
+                                    )),
                                   ),
                                 ),
                               ),
@@ -143,9 +165,45 @@ class _SingleListingPageState extends State<SingleListingPage> {
                                       ),
                                       width: 275,
                                       height: 250,
-                                      child: Text(
-                                        "Price here",
-                                        textAlign: TextAlign.left,
+                                      child: Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(25, 15, 15, 15),
+                                        child: Column(
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                'Pris',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 22),
+                                                textAlign: TextAlign.left,
+                                              ),
+                                            ),
+                                            ListView(
+                                              shrinkWrap: true,
+                                              children:
+                                                  values.keys.map((String key) {
+                                                return new CheckboxListTile(
+                                                  controlAffinity:
+                                                      ListTileControlAffinity
+                                                          .leading,
+                                                  activeColor: Color.fromRGBO(
+                                                      143, 172, 120, 57),
+                                                  title: Text(key),
+                                                  value: values[key],
+                                                  onChanged: (bool? value) {
+                                                    setState(() {
+                                                      values[key] =
+                                                          !values[key]!;
+                                                      print(values);
+                                                    });
+                                                  },
+                                                );
+                                              }).toList(),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -185,17 +243,17 @@ class _SingleListingPageState extends State<SingleListingPage> {
                               Padding(
                                 padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
                                 child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.white,
-                                  ),
-                                  width: 250,
-                                  height: 250,
-                                  child: Text(
-                                    "Renter info here",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: Colors.white,
+                                    ),
+                                    width: 250,
+                                    height: 250,
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(20, 20, 20, 20),
+                                      child: renterInfo('renter123'),
+                                    )),
                               ),
                               Padding(
                                 padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
@@ -260,10 +318,29 @@ class _SingleListingPageState extends State<SingleListingPage> {
   } //WidgetBuild
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
-    // TODO: implement your code here
-    print(args.value);
+    PickerDateRange ranges = args.value;
+    DateTime start = ranges.startDate!;
+    DateTime end = ranges.endDate!;
+    finalStart = start;
+    finalEnd = end;
+    final int difference = daysBetween(start, end);
+    setState(() {
+      transactionPrice = getPriceFromRange(difference);
+    });
+  }
 
-    price = 800;
+  int getPriceFromRange(int range) {
+    if (range == 0) {
+      return price;
+    } else {
+      return price * range;
+    }
+  }
+
+  int daysBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    return (to.difference(from).inHours / 24).round();
   }
 
   String _getTitle() {
@@ -271,16 +348,17 @@ class _SingleListingPageState extends State<SingleListingPage> {
   }
 
   String _getDescription() {
-    return "Humpty Dumpty sat on a wall, Humpty Dumpty had a great fall, All the king's horses and all the king's men, Couldn't put Humpty together again, Humpty Dumpty sat on a wall, Humpty Dumpty had a great fall, All the king's horses and all the king's men, Couldn't put Humpty together again, Humpty Dumpty sat on a wall, Humpty Dumpty had a great fall, All the king's horses and all the king's men, Couldn't put Humpty together again";
+    return "Humpty Dumpty sat on a wall, Humpty Dumpty had a great fall, All the king's horses and all the king's men, Couldn't put Humpty together again, Humpty Dumpty sat on a wall, Humpty Dumpty had a great fall, \n All the king's horses and all the king's men, Couldn't put Humpty together again, Humpty Dumpty sat on a wall, Humpty Dumpty had a great fall, All the king's horses and all the king's men, Couldn't put Humpty together again. \n All the king's horses and all the king's men, Couldn't put Humpty together again, Humpty Dumpty sat on a wall, Humpty Dumpty had a great fall, All the king's horses and all the king's men, Couldn't put Humpty together again, \n All the king's horses and all the king's men, Couldn't put Humpty together again, Humpty Dumpty sat on a wall, Humpty Dumpty had a great fall, All the king's horses and all the king's men, Couldn't put Humpty together again";
   }
 
   String _getPrice() {
-    return '$price kr';
+    return '$transactionPrice kr';
   }
 
   void _sendRequest() {
     // TODO: implement your code here
-    print('Request to rent');
+    print(
+        'Hi, i would like to rent this equipment from $finalStart to $finalEnd for a total of $transactionPrice kr.');
   }
 
   List testList = [
