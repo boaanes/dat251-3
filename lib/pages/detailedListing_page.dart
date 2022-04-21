@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expandable/expandable.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:utstyr/classes/listings.dart';
@@ -16,6 +17,8 @@ import 'package:expandable/expandable.dart';
 
 import '../services/auth_services.dart';
 
+final listingRef = FirebaseFirestore.instance.collection('listings');
+
 class SingleListingPage extends StatefulWidget {
   final String listingId;
   SingleListingPage({
@@ -30,8 +33,15 @@ class SingleListingPage extends StatefulWidget {
 
 class _SingleListingPageState extends State<SingleListingPage> {
   @override
+  double defaultHeight = 500;
+  double contentHeight = 400;
+  double totalWidth = 1000;
   int price = 500;
   int transactionPrice = 500;
+  double smallpadding = 2;
+  double bigpadding = 25;
+  double defaultRadius = 20;
+  Color lightGreen = Color.fromRGBO(143, 172, 120, 57);
   DateTime finalStart = DateTime.now();
   DateTime finalEnd = DateTime.now();
   CarouselController carouselController = CarouselController();
@@ -42,31 +52,31 @@ class _SingleListingPageState extends State<SingleListingPage> {
       'Feller - 50 kr': false,
       'Pakkepris - 500 kr': true,
     };
-    var allListings = Provider.of<List<Listings>>(context);
+
     return Material(
         child: utstyrScaffold(
             context,
             SingleChildScrollView(
               child: Padding(
-                  padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
+                  padding: EdgeInsets.all(smallpadding),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(2, 2, 2, 2),
+                        padding: EdgeInsets.all(smallpadding),
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(defaultRadius),
                             color: Colors.white,
                           ),
-                          width: 1000,
-                          height: 500,
+                          width: totalWidth,
+                          height: defaultHeight,
                           child: Stack(children: [
                             Align(
                               alignment: Alignment.topLeft,
                               child: Padding(
-                                padding: EdgeInsets.fromLTRB(25, 20, 15, 0),
+                                padding: EdgeInsets.all(bigpadding),
                                 child: Text(
                                   _getTitle(),
                                   style: TextStyle(
@@ -80,7 +90,7 @@ class _SingleListingPageState extends State<SingleListingPage> {
                               alignment: Alignment.center,
                               child: CarouselSlider(
                                 carouselController: carouselController,
-                                options: CarouselOptions(height: 400.0),
+                                options: CarouselOptions(height: contentHeight),
                                 items: [
                                   Image.asset('assets/images/splitboard1.png'),
                                   Image.asset('assets/images/splitboard2.png'),
@@ -90,7 +100,7 @@ class _SingleListingPageState extends State<SingleListingPage> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.fromLTRB(25, 0, 0, 0),
+                              padding: EdgeInsets.all(bigpadding),
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: IconButton(
@@ -100,13 +110,13 @@ class _SingleListingPageState extends State<SingleListingPage> {
                                   },
                                   icon: Icon(
                                     Icons.arrow_back_ios_new_rounded,
-                                    color: Color.fromRGBO(143, 172, 120, 57),
+                                    color: lightGreen,
                                   ),
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.fromLTRB(0, 0, 25, 0),
+                              padding: EdgeInsets.all(bigpadding),
                               child: Align(
                                 alignment: Alignment.centerRight,
                                 child: IconButton(
@@ -116,7 +126,7 @@ class _SingleListingPageState extends State<SingleListingPage> {
                                   },
                                   icon: Icon(
                                     Icons.arrow_forward_ios_rounded,
-                                    color: Color.fromRGBO(143, 172, 120, 57),
+                                    color: lightGreen,
                                   ),
                                 ),
                               ),
@@ -133,19 +143,20 @@ class _SingleListingPageState extends State<SingleListingPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
+                                padding: EdgeInsets.all(smallpadding),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius:
+                                        BorderRadius.circular(defaultRadius),
                                     color: Colors.white,
                                   ),
-                                  width: 750,
-                                  height: 400,
+                                  width: totalWidth * 0.75,
+                                  height: contentHeight,
                                   child: Padding(
-                                    padding: EdgeInsets.all(25),
+                                    padding: EdgeInsets.all(bigpadding),
                                     child: SingleChildScrollView(
                                         child: Text(
-                                      _getDescription() + _getDescription(),
+                                      'Description here',
                                       softWrap: true,
                                       textAlign: TextAlign.left,
                                       style:
@@ -157,17 +168,18 @@ class _SingleListingPageState extends State<SingleListingPage> {
                               Row(
                                 children: [
                                   Padding(
-                                    padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
+                                    padding: EdgeInsets.all(smallpadding),
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
+                                        borderRadius: BorderRadius.circular(
+                                            defaultRadius),
                                         color: Colors.white,
                                       ),
-                                      width: 275,
-                                      height: 250,
+                                      width: totalWidth * 0.275,
+                                      height: defaultHeight * 0.5,
                                       child: Padding(
                                         padding:
-                                            EdgeInsets.fromLTRB(25, 15, 15, 15),
+                                            EdgeInsets.all(bigpadding - 10),
                                         child: Column(
                                           children: [
                                             Align(
@@ -188,8 +200,7 @@ class _SingleListingPageState extends State<SingleListingPage> {
                                                   controlAffinity:
                                                       ListTileControlAffinity
                                                           .leading,
-                                                  activeColor: Color.fromRGBO(
-                                                      143, 172, 120, 57),
+                                                  activeColor: lightGreen,
                                                   title: Text(key),
                                                   value: values[key],
                                                   onChanged: (bool? value) {
@@ -208,17 +219,18 @@ class _SingleListingPageState extends State<SingleListingPage> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
+                                    padding: EdgeInsets.all(smallpadding),
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
+                                        borderRadius: BorderRadius.circular(
+                                            defaultRadius),
                                         color: Colors.white,
                                       ),
-                                      width: 475,
-                                      height: 250,
+                                      width: totalWidth * 0.475,
+                                      height: defaultHeight * 0.5,
                                       child: Padding(
-                                          padding: EdgeInsets.fromLTRB(
-                                              10, 25, 10, 10),
+                                          padding:
+                                              EdgeInsets.all(bigpadding - 10),
                                           child: FlutterMap(
                                             options: MapOptions(
                                               center:
@@ -241,29 +253,30 @@ class _SingleListingPageState extends State<SingleListingPage> {
                           Column(
                             children: [
                               Padding(
-                                padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
+                                padding: EdgeInsets.all(smallpadding),
                                 child: Container(
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius:
+                                          BorderRadius.circular(defaultRadius),
                                       color: Colors.white,
                                     ),
-                                    width: 250,
-                                    height: 250,
+                                    width: totalWidth * 0.250,
+                                    height: defaultHeight * 0.5,
                                     child: Padding(
-                                      padding:
-                                          EdgeInsets.fromLTRB(20, 20, 20, 20),
+                                      padding: EdgeInsets.all(bigpadding - 4),
                                       child: renterInfo('renter123'),
                                     )),
                               ),
                               Padding(
-                                padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
+                                padding: EdgeInsets.all(smallpadding),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius:
+                                        BorderRadius.circular(defaultRadius),
                                     color: Colors.white,
                                   ),
-                                  width: 250,
-                                  height: 400,
+                                  width: totalWidth * 0.250,
+                                  height: contentHeight,
                                   child: Column(
                                     children: [
                                       Padding(
@@ -288,15 +301,15 @@ class _SingleListingPageState extends State<SingleListingPage> {
                                       ),
                                       Padding(
                                         padding:
-                                            EdgeInsets.fromLTRB(10, 25, 10, 21),
+                                            EdgeInsets.all(bigpadding - 10),
                                         child: ElevatedButton(
                                           onPressed: () {
                                             _sendRequest();
                                           },
                                           child: const Text('Send foresørsel'),
                                           style: ElevatedButton.styleFrom(
-                                            primary: Color.fromRGBO(143, 172,
-                                                120, 57), // Background color
+                                            primary:
+                                                lightGreen, // Background color
                                             onPrimary: Colors
                                                 .white, // Text Color (Foreground color)
                                           ),
