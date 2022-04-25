@@ -17,7 +17,7 @@ import 'package:expandable/expandable.dart';
 
 import '../services/auth_services.dart';
 
-final listingRef = FirebaseFirestore.instance.collection('listings');
+//final listingRef = FirebaseFirestore.instance.collection('listings');
 
 class SingleListingPage extends StatefulWidget {
   final String listingId;
@@ -25,6 +25,7 @@ class SingleListingPage extends StatefulWidget {
     Key? key,
     required this.listingId,
   }) : super(key: key);
+
   static const String id = 'SingleListingPage'; //Page identifier for navigation
 
   @override
@@ -32,12 +33,11 @@ class SingleListingPage extends StatefulWidget {
 }
 
 class _SingleListingPageState extends State<SingleListingPage> {
-  @override
+  //@override
   double defaultHeight = 500;
   double contentHeight = 400;
   double totalWidth = 1000;
-  int price = 500;
-  int transactionPrice = 500;
+  int transactionPrice = 0;
   double smallpadding = 2;
   double bigpadding = 25;
   double defaultRadius = 20;
@@ -45,6 +45,8 @@ class _SingleListingPageState extends State<SingleListingPage> {
   DateTime finalStart = DateTime.now();
   DateTime finalEnd = DateTime.now();
   CarouselController carouselController = CarouselController();
+  int price = 0;
+  //int transactionPrice = 400;
   Widget build(BuildContext context) {
     Map<String, bool> values = {
       'Splitboard - 450 kr': false,
@@ -52,6 +54,14 @@ class _SingleListingPageState extends State<SingleListingPage> {
       'Feller - 50 kr': false,
       'Pakkepris - 500 kr': true,
     };
+    var allListings = Provider.of<List<Listings>>(context);
+    Listings listing =
+        FirestoreServices().listingByID(allListings, widget.listingId);
+    price = listing.getPrice();
+    if (transactionPrice == 0) {
+      transactionPrice = price;
+    }
+    //List images = listing.getImages();
 
     return Material(
         child: utstyrScaffold(
@@ -78,7 +88,7 @@ class _SingleListingPageState extends State<SingleListingPage> {
                               child: Padding(
                                 padding: EdgeInsets.all(bigpadding),
                                 child: Text(
-                                  _getTitle(),
+                                  listing.getTitle(),
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18),
@@ -92,10 +102,14 @@ class _SingleListingPageState extends State<SingleListingPage> {
                                 carouselController: carouselController,
                                 options: CarouselOptions(height: contentHeight),
                                 items: [
-                                  Image.asset('assets/images/splitboard1.png'),
-                                  Image.asset('assets/images/splitboard2.png'),
-                                  Image.asset('assets/images/splitboard3.png'),
-                                  Image.asset('assets/images/splitboard4.png'),
+                                  Image.network(
+                                      'https://firebasestorage.googleapis.com/v0/b/dat251-3.appspot.com/o/Dp2K3VwY9ag1E0JrwVAs%2Fsplitboard1.png?alt=media&token=e12700ed-a5e6-46b0-beae-6cd5dcfa54b0'),
+                                  Image.network(
+                                      'https://firebasestorage.googleapis.com/v0/b/dat251-3.appspot.com/o/Dp2K3VwY9ag1E0JrwVAs%2Fsplitboard2.png?alt=media&token=8349da52-cd6e-44a4-9e7a-ef81045b2c53'),
+                                  Image.network(
+                                      'https://firebasestorage.googleapis.com/v0/b/dat251-3.appspot.com/o/Dp2K3VwY9ag1E0JrwVAs%2Fsplitboard3.png?alt=media&token=48126bd0-5794-4eb7-921c-a38cf864bfa6'),
+                                  Image.network(
+                                      'https://firebasestorage.googleapis.com/v0/b/dat251-3.appspot.com/o/Dp2K3VwY9ag1E0JrwVAs%2Fsplitboard4.png?alt=media&token=6cd39d12-0d3f-43db-a75a-ccc8e8c4d7fd'),
                                 ],
                               ),
                             ),
@@ -156,7 +170,7 @@ class _SingleListingPageState extends State<SingleListingPage> {
                                     padding: EdgeInsets.all(bigpadding),
                                     child: SingleChildScrollView(
                                         child: Text(
-                                      'Description here',
+                                      listing.getDescription(),
                                       softWrap: true,
                                       textAlign: TextAlign.left,
                                       style:
@@ -354,14 +368,6 @@ class _SingleListingPageState extends State<SingleListingPage> {
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);
     return (to.difference(from).inHours / 24).round();
-  }
-
-  String _getTitle() {
-    return "Toppturpakke - Splitboard";
-  }
-
-  String _getDescription() {
-    return "Humpty Dumpty sat on a wall, Humpty Dumpty had a great fall, All the king's horses and all the king's men, Couldn't put Humpty together again, Humpty Dumpty sat on a wall, Humpty Dumpty had a great fall, \n All the king's horses and all the king's men, Couldn't put Humpty together again, Humpty Dumpty sat on a wall, Humpty Dumpty had a great fall, All the king's horses and all the king's men, Couldn't put Humpty together again. \n All the king's horses and all the king's men, Couldn't put Humpty together again, Humpty Dumpty sat on a wall, Humpty Dumpty had a great fall, All the king's horses and all the king's men, Couldn't put Humpty together again, \n All the king's horses and all the king's men, Couldn't put Humpty together again, Humpty Dumpty sat on a wall, Humpty Dumpty had a great fall, All the king's horses and all the king's men, Couldn't put Humpty together again";
   }
 
   String _getPrice() {

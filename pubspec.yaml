@@ -84,6 +84,7 @@ flutter:
     - assets/images/splitboard2.png
     - assets/images/splitboard3.png
     - assets/images/splitboard4.png
+    - assets/images/randoneeski.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
