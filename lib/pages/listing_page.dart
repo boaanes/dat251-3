@@ -23,7 +23,10 @@ class _ListingPageState extends State<ListingPage> {
   Widget build(BuildContext context) {
     var iconNames = {
       'snowboard': Icons.snowboarding,
-      'topptur': Icons.nordic_walking
+      'topptur': Icons.nordic_walking,
+      'alpint': Icons.downhill_skiing,
+      'sykkel': Icons.pedal_bike,
+      'camping': Icons.map
     };
     var allListings = Provider.of<List<Listings>>(context);
     return Material(
@@ -94,7 +97,7 @@ class _ListingPageState extends State<ListingPage> {
                                                       TextStyle(fontSize: 17),
                                                 ),
                                                 Text(
-                                                  'Størrelse: ', // +
+                                                  '', // +
                                                   // testList[0]['størrelse'],
                                                   style:
                                                       TextStyle(fontSize: 13),
@@ -102,14 +105,14 @@ class _ListingPageState extends State<ListingPage> {
                                               ],
                                             ),
                                             Text(
-                                              el.price,
+                                              _getPrice(el),
                                               style: TextStyle(fontSize: 18),
                                             ),
                                           ],
                                         ),
                                         Expanded(
-                                            child: Image.asset(
-                                          'assets/images/kajakk.png',
+                                            child: Image.network(
+                                          'https://firebasestorage.googleapis.com/v0/b/dat251-3.appspot.com/o/Dp2K3VwY9ag1E0JrwVAs%2Fsplitboard2.png?alt=media&token=8349da52-cd6e-44a4-9e7a-ef81045b2c53',
                                           filterQuality: FilterQuality.medium,
                                         ))
                                       ],
@@ -173,4 +176,9 @@ class _ListingPageState extends State<ListingPage> {
       'størrelse': 'EU 43 - 155cm'
     }
   ];
+
+  _getPrice(el) {
+    int price = el.price;
+    return '$price kr';
+  }
 }
