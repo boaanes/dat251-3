@@ -1,16 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Listings {
+  final String listingID;
   final String title;
   final String description;
   final DateTime availableFrom;
   final DateTime availableTo;
   final String category;
-  final String price;
+  final int price;
   final List gear;
 
   Listings(
-      {required this.title,
+      {required this.listingID,
+      required this.title,
       required this.description,
       required this.availableFrom,
       required this.availableTo,
@@ -21,13 +23,29 @@ class Listings {
   factory Listings.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data()! as Map;
     return Listings(
-      title: data['title'] ?? 'Title',
-      description: data['description'] ?? 'Description',
-      availableFrom: data['availableFrom'].toDate() ?? DateTime.now(),
-      availableTo: data['availableTo'].toDate() ?? DateTime.now(),
-      category: data['category'] ?? 'Category',
-      price: data['price'] ?? 'Price',
-      gear: data['gear'] ?? 'Gear',
-    );
+        listingID: doc.id,
+        title: data['title'] ?? 'Title',
+        description: data['description'] ?? 'Description',
+        availableFrom: data['availableFrom'].toDate() ?? DateTime.now(),
+        availableTo: data['availableTo'].toDate() ?? DateTime.now(),
+        category: data['category'] ?? 'Category',
+        price: data['price'] ?? 'Price',
+        gear: data['gear'] ?? 'Gear');
+  }
+
+  String getLisitngID() {
+    return listingID;
+  }
+
+  String getTitle() {
+    return title;
+  }
+
+  String getDescription() {
+    return description;
+  }
+
+  int getPrice() {
+    return price;
   }
 }
