@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tuple/tuple.dart';
 
 class Listings {
   final String listingID;
@@ -9,7 +10,7 @@ class Listings {
   final String category;
   final int price;
   final List gear;
-  final Loaction location;
+  final Tuple2<double, double> location;
 
   Listings(
       {required this.listingID,
@@ -20,8 +21,7 @@ class Listings {
       required this.category,
       required this.price,
       required this.gear,
-      required this.location
-      });
+      required this.location});
 
   factory Listings.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data()! as Map;
@@ -34,8 +34,7 @@ class Listings {
         category: data['category'] ?? 'Category',
         price: data['price'] ?? 'Price',
         gear: data['gear'] ?? 'Gear',
-        location: data['loaction'] ?? 'Loaction'
-    );
+        location: data['location'] ?? 'Location');
   }
 
   String getLisitngID() {

@@ -1,7 +1,10 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:utstyr/classes/listings.dart';
+import 'package:tuple/tuple.dart';
 
 class FirestoreServices {
   /*Future getListings() {
@@ -35,7 +38,7 @@ class FirestoreServices {
         return allListings[i];
       }
     }
-    return new Listings(
+    return Listings(
         listingID: 'listingID',
         title: 'title',
         description: 'description',
@@ -43,6 +46,7 @@ class FirestoreServices {
         availableTo: DateTime.now(),
         category: 'category',
         price: 0,
-        gear: ['gear', 'gear']);
+        gear: ['gear', 'gear'],
+        location: const Tuple2(0, 0));
   }
 }
