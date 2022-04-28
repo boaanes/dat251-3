@@ -9,6 +9,7 @@ class Listings {
   final String category;
   final int price;
   final List gear;
+  final Loaction location;
 
   Listings(
       {required this.listingID,
@@ -18,7 +19,9 @@ class Listings {
       required this.availableTo,
       required this.category,
       required this.price,
-      required this.gear});
+      required this.gear,
+      required this.location
+      });
 
   factory Listings.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data()! as Map;
@@ -30,7 +33,9 @@ class Listings {
         availableTo: data['availableTo'].toDate() ?? DateTime.now(),
         category: data['category'] ?? 'Category',
         price: data['price'] ?? 'Price',
-        gear: data['gear'] ?? 'Gear');
+        gear: data['gear'] ?? 'Gear',
+        location: data['loaction'] ?? 'Loaction'
+    );
   }
 
   String getLisitngID() {

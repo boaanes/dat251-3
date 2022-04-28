@@ -27,6 +27,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     var allListings = Provider.of<List<Listings>>(context); //Listings provider
     var user = Provider.of<User?>(context); //User provider
+    print(allListings;)
     return Material(
         child: utstyrScaffold(
             //Top bar widget
