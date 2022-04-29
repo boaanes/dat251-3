@@ -18,6 +18,9 @@ class ListingPage extends StatefulWidget {
 }
 
 class _ListingPageState extends State<ListingPage> {
+  String filter = 'nofilter';
+  int maksPris = 99999999;
+  var maksController = TextEditingController();
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
   @override
   Widget build(BuildContext context) {
@@ -59,7 +62,41 @@ class _ListingPageState extends State<ListingPage> {
                       Text(
                         capitalize(widget.category),
                         style: TextStyle(fontSize: 21),
-                      )
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(50, 0, 10, 0),
+                        child: ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                filter = maksPris.toString();
+                              });
+                            },
+                            child: Text('Filter')),
+                      ),
+                      (filter == 'nofilter')
+                          ? Container()
+                          : Container(
+                              width: 150,
+                              child: TextFormField(
+                                controller: maksController,
+                                decoration: InputDecoration(
+                                  labelText: 'Maks pris',
+                                  labelStyle: TextStyle(
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                keyboardType: TextInputType.number,
+                              ),
+                            ),
+                      (filter == 'nofilter')
+                          ? Container()
+                          : ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  filter = maksPris.toString();
+                                });
+                              },
+                              child: Text('Søk')),
                     ],
                   ),
                 ),
@@ -69,7 +106,7 @@ class _ListingPageState extends State<ListingPage> {
                       crossAxisSpacing: 20.0,
                       mainAxisSpacing: 20.0,
                       children: FirestoreServices()
-                          .filterListings(allListings, widget.category)
+                          .filterListings(allListings, widget.category, filter)
                           .map((el) => Padding(
                                 padding: const EdgeInsets.all(25.0),
                                 child: Container(

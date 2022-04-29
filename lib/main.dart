@@ -28,7 +28,48 @@ class MyApp extends StatelessWidget {
           value: FirebaseAuth.instance.authStateChanges(),
         ),
         StreamProvider<List<Listings>>.value(
-          initialData: [],
+          initialData: [
+            Listings(
+              listingID: 'listingID',
+              title: 'title',
+              description: 'description',
+              category: 'category',
+              price: 1,
+              gear: ['gear'],
+            ),
+            Listings(
+              listingID: 'listingID',
+              title: 'title',
+              description: 'description',
+              category: 'category',
+              price: 1,
+              gear: ['gear'],
+            ),
+            Listings(
+              listingID: 'listingID',
+              title: 'title',
+              description: 'description',
+              category: 'category',
+              price: 1,
+              gear: ['gear'],
+            ),
+            Listings(
+              listingID: 'listingID',
+              title: 'title',
+              description: 'description',
+              category: 'category',
+              price: 1,
+              gear: ['gear'],
+            ),
+            Listings(
+              listingID: 'listingID',
+              title: 'title',
+              description: 'description',
+              category: 'category',
+              price: 1,
+              gear: ['gear'],
+            )
+          ],
           value: FirestoreServices().getListings(),
         )
       ],
