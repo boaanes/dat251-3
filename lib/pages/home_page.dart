@@ -431,13 +431,7 @@ class _HomeState extends State<Home> {
                             )
                           ],
                         )),
-                    Text(user?.email ?? 'Not logged in'),
-                    ElevatedButton(
-                        onPressed: () {
-                          standardNavigator(context, RoomsPage());
-                        },
-                        child: const Text('Chats')),
-                    bottombar()
+                    bottombar() //
                   ],
                 ),
               ),
