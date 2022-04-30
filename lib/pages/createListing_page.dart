@@ -2,14 +2,12 @@ import 'dart:html';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:utstyr/classes/listings.dart';
 import 'package:utstyr/pages/login_page.dart';
 import 'package:utstyr/services/firestore_services.dart';
 import 'package:utstyr/widgets/bottombar.dart';
 import 'package:utstyr/widgets/scaffold.dart';
-import 'package:uuid/uuid.dart';
 
 import '../widgets/standardNavigator.dart';
 import 'account_page.dart';
@@ -31,7 +29,6 @@ class _CreateListingState extends State<CreateListing> {
   TextEditingController priceInput = TextEditingController();
   TextEditingController categoryInput = TextEditingController();
   DateTime date = DateTime.now();
-  var uuid = Uuid();
   @override
   Widget build(BuildContext context) {
     var user = Provider.of<User?>(context);
@@ -348,7 +345,7 @@ class _CreateListingState extends State<CreateListing> {
                                         //new Listings(listingID: "custom id", title: , description: description, availableFrom: availableFrom, availableTo: availableTo, category: category, price: price, gear: gear)
                                         onPressed: () {
                                           Listings listing = new Listings(
-                                              listingID: uuid.v4(),
+                                              listingID: "",
                                               userID: FirebaseAuth
                                                   .instance.currentUser!.uid,
                                               title: titleInput.text,
