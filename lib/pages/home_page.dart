@@ -13,7 +13,6 @@ import 'package:utstyr/widgets.dart';
 import 'package:utstyr/widgets/bottombar.dart';
 
 import '../services/auth_services.dart';
-import 'account_page.dart';
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
@@ -96,27 +95,35 @@ class _HomeState extends State<Home> {
                                 ],
                               )),
                           InkWell(
+                              onTap: () {
+                                standardNavigator(
+                                    context,
+                                    ListingPage(
+                                      category: 'alpint',
+                                    ));
+                              },
                               child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: Colors.white,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color: Colors.white,
+                                      ),
+                                      width: 80,
+                                      height: 70,
+                                      child: Icon(
+                                        Icons.downhill_skiing,
+                                        size: 35,
+                                        color: Color(0xff2C4C16),
+                                      ),
+                                    ),
                                   ),
-                                  width: 80,
-                                  height: 70,
-                                  child: Icon(
-                                    Icons.downhill_skiing,
-                                    size: 35,
-                                    color: Color(0xff2C4C16),
-                                  ),
-                                ),
-                              ),
-                              Text("Alpint")
-                            ],
-                          )),
+                                  Text("Alpint")
+                                ],
+                              )),
                           InkWell(
                               onTap: () {
                                 standardNavigator(
@@ -148,49 +155,65 @@ class _HomeState extends State<Home> {
                                 ],
                               )),
                           InkWell(
+                              onTap: () {
+                                standardNavigator(
+                                    context,
+                                    ListingPage(
+                                      category: 'sykkel',
+                                    ));
+                              },
                               child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: Colors.white,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color: Colors.white,
+                                      ),
+                                      width: 80,
+                                      height: 70,
+                                      child: Icon(
+                                        Icons.pedal_bike,
+                                        size: 35,
+                                        color: Color(0xff2C4C16),
+                                      ),
+                                    ),
                                   ),
-                                  width: 80,
-                                  height: 70,
-                                  child: Icon(
-                                    Icons.pedal_bike,
-                                    size: 35,
-                                    color: Color(0xff2C4C16),
-                                  ),
-                                ),
-                              ),
-                              Text("Sykkel")
-                            ],
-                          )),
+                                  Text("Sykkel")
+                                ],
+                              )),
                           InkWell(
+                              onTap: () {
+                                standardNavigator(
+                                    context,
+                                    ListingPage(
+                                      category: 'camping',
+                                    ));
+                              },
                               child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: Colors.white,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color: Colors.white,
+                                      ),
+                                      width: 80,
+                                      height: 70,
+                                      child: Icon(
+                                        Icons.map,
+                                        size: 35,
+                                        color: Color(0xff2C4C16),
+                                      ),
+                                    ),
                                   ),
-                                  width: 80,
-                                  height: 70,
-                                  child: Icon(
-                                    Icons.map,
-                                    size: 35,
-                                    color: Color(0xff2C4C16),
-                                  ),
-                                ),
-                              ),
-                              Text("Camping")
-                            ],
-                          )),
+                                  Text("Camping")
+                                ],
+                              )),
                           InkWell(
                               child: Column(
                             children: [
@@ -231,7 +254,7 @@ class _HomeState extends State<Home> {
                                   standardNavigator(
                                       context,
                                       SingleListingPage(
-                                        listingId: 'yAecmv9LiqE88snjUL3H',
+                                        listingId: allListings[2].listingID,
                                       ))
                                 },
                                 child: Container(
@@ -254,7 +277,7 @@ class _HomeState extends State<Home> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  testList[0]['title'],
+                                                  allListings[2].title,
                                                   style:
                                                       TextStyle(fontSize: 17),
                                                 ),
@@ -267,14 +290,15 @@ class _HomeState extends State<Home> {
                                               ],
                                             ),
                                             Text(
-                                              testList[0]['price'],
+                                              allListings[2].price.toString() +
+                                                  ' kr',
                                               style: TextStyle(fontSize: 13),
                                             ),
                                           ],
                                         ),
                                         Expanded(
-                                            child: Image.asset(
-                                          'assets/images/kajakk.png',
+                                            child: Image.network(
+                                          'https://firebasestorage.googleapis.com/v0/b/dat251-3.appspot.com/o/Dp2K3VwY9ag1E0JrwVAs%2Fsplitboard1.png?alt=media&token=e12700ed-a5e6-46b0-beae-6cd5dcfa54b0',
                                           filterQuality: FilterQuality.medium,
                                         ))
                                       ],
@@ -291,7 +315,7 @@ class _HomeState extends State<Home> {
                                   standardNavigator(
                                       context,
                                       SingleListingPage(
-                                        listingId: 'yAecmv9LiqE88snjUL3H',
+                                        listingId: allListings[3].listingID,
                                       ))
                                 },
                                 child: Container(
@@ -314,7 +338,7 @@ class _HomeState extends State<Home> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  testList[1]['title'],
+                                                  allListings[3].title,
                                                   style:
                                                       TextStyle(fontSize: 17),
                                                 ),
@@ -327,14 +351,15 @@ class _HomeState extends State<Home> {
                                               ],
                                             ),
                                             Text(
-                                              testList[1]['price'],
+                                              allListings[3].price.toString() +
+                                                  ' kr',
                                               style: TextStyle(fontSize: 13),
                                             ),
                                           ],
                                         ),
                                         Expanded(
-                                            child: Image.asset(
-                                          'assets/images/kajakk.png',
+                                            child: Image.network(
+                                          'https://firebasestorage.googleapis.com/v0/b/dat251-3.appspot.com/o/FnPHO9x1owbEKYzhADJJ%2Fkajakk.png?alt=media&token=55696354-89c1-4c34-b49c-5bf62c535216',
                                           filterQuality: FilterQuality.medium,
                                         ))
                                       ],
@@ -374,7 +399,7 @@ class _HomeState extends State<Home> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  testList[2]['title'],
+                                                  allListings[4].title,
                                                   style:
                                                       TextStyle(fontSize: 17),
                                                 ),
@@ -387,14 +412,15 @@ class _HomeState extends State<Home> {
                                               ],
                                             ),
                                             Text(
-                                              testList[2]['price'],
+                                              allListings[4].price.toString() +
+                                                  ' kr',
                                               style: TextStyle(fontSize: 13),
                                             ),
                                           ],
                                         ),
                                         Expanded(
-                                            child: Image.asset(
-                                          'assets/images/kajakk.png',
+                                            child: Image.network(
+                                          'https://firebasestorage.googleapis.com/v0/b/dat251-3.appspot.com/o/VDq2FsZaW80NkHqgki3h%2Frandoneeski.png?alt=media&token=3548c768-ca8d-48aa-aeed-3e4a1df17a48',
                                           filterQuality: FilterQuality.medium,
                                         )),
                                       ],
@@ -405,7 +431,7 @@ class _HomeState extends State<Home> {
                             )
                           ],
                         )),
-                    bottombar()
+                    bottombar() //
                   ],
                 ),
               ),
@@ -417,17 +443,20 @@ class _HomeState extends State<Home> {
     {
       'title': 'Splitboard utstyr',
       'price': '100kr - 400kr',
-      'størrelse': 'EU 43 - 155cm'
+      'størrelse': 'EU 45 - 160cm',
+      'image': 'assets/images/splitboard1.png'
     },
     {
-      'title': 'Splitboard utstyr2',
-      'price': '100kr - 400kr',
-      'størrelse': 'EU 43 - 155cm'
+      'title': 'Kajakk',
+      'price': '400kr',
+      'størrelse': '320cm',
+      'image': 'assets/images/kajakk.png'
     },
     {
-      'title': 'Splitboard utstyr3',
-      'price': '100kr - 400kr',
-      'størrelse': 'EU 43 - 155cm'
+      'title': 'Randoneeski',
+      'price': '200kr - 500kr',
+      'størrelse': 'EU 43 - 155cm',
+      'image': 'assets/images/randoneeski.png'
     }
   ];
 }
