@@ -349,7 +349,10 @@ class _SingleListingPageState extends State<SingleListingPage> {
                           ),
                         ],
                       ),
-                      bottombar()
+                      Padding(
+                        padding: const EdgeInsets.only(left: 100.0),
+                        child: bottombar(),
+                      )
                     ],
                   )),
             )) //Scaffold
