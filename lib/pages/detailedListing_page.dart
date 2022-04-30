@@ -68,7 +68,7 @@ class _SingleListingPageState extends State<SingleListingPage> {
     var allListings = Provider.of<List<Listings>>(context);
     Listings listing =
         FirestoreServices().listingByID(allListings, widget.listingId);
-    price = listing.getPrice();
+    price = listing.price;
     if (transactionPrice == 0) {
       transactionPrice = price;
     }
@@ -409,4 +409,8 @@ class _SingleListingPageState extends State<SingleListingPage> {
       'størrelse': 'EU 43 - 155cm'
     }
   ];
+}
+
+int stringToInt(String price) {
+  return int.parse(price);
 }

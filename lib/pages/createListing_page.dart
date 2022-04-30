@@ -1,9 +1,16 @@
+import 'dart:html';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:utstyr/classes/listings.dart';
 import 'package:utstyr/pages/login_page.dart';
+import 'package:utstyr/services/firestore_services.dart';
 import 'package:utstyr/widgets/bottombar.dart';
 import 'package:utstyr/widgets/scaffold.dart';
+
+import '../widgets/standardNavigator.dart';
+import 'account_page.dart';
 
 class CreateListing extends StatefulWidget {
   const CreateListing({Key? key}) : super(key: key);
@@ -17,6 +24,11 @@ class _CreateListingState extends State<CreateListing> {
   bool packagePrice = false;
   bool oneDayPrice = false;
   bool oneWeekPrice = false;
+  TextEditingController titleInput = TextEditingController();
+  TextEditingController descriptionInput = TextEditingController();
+  TextEditingController priceInput = TextEditingController();
+  TextEditingController categoryInput = TextEditingController();
+  DateTime date = DateTime.now();
   @override
   Widget build(BuildContext context) {
     var user = Provider.of<User?>(context);
@@ -60,7 +72,7 @@ class _CreateListingState extends State<CreateListing> {
                                         Container(
                                           width: 500,
                                           child: TextFormField(
-                                            validator: (value) {},
+                                            controller: titleInput,
                                             cursorColor: Theme.of(context)
                                                 .colorScheme
                                                 .secondary,
@@ -102,6 +114,55 @@ class _CreateListingState extends State<CreateListing> {
                                           padding: const EdgeInsets.fromLTRB(
                                               0, 25, 0, 10),
                                           child: Text(
+                                            'Kategori',
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                        ),
+                                        Container(
+                                          width: 500,
+                                          child: TextFormField(
+                                            controller: categoryInput,
+                                            cursorColor: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
+                                            decoration: InputDecoration(
+                                                focusColor: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary,
+                                                filled: true,
+                                                enabledBorder: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .secondary),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                focusedBorder: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        width: 2,
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .secondary),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                fillColor: Colors.grey[50],
+                                                border: const OutlineInputBorder(),
+                                                hintText: "Eks. Friluftsliv",
+                                                hintStyle: TextStyle(color: Colors.grey[400])),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 25, 0, 10),
+                                          child: Text(
                                             'Beskrivelse',
                                             style: TextStyle(fontSize: 18),
                                           ),
@@ -109,7 +170,7 @@ class _CreateListingState extends State<CreateListing> {
                                         Container(
                                           width: 500,
                                           child: TextFormField(
-                                            validator: (value) {},
+                                            controller: descriptionInput,
                                             cursorColor: Theme.of(context)
                                                 .colorScheme
                                                 .secondary,
@@ -145,8 +206,67 @@ class _CreateListingState extends State<CreateListing> {
                                       ],
                                     ),
                                     Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Text("Valg"),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 25, 0, 10),
+                                          child: Text(
+                                            'Pris',
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                        ),
+                                        Container(
+                                          width: 80,
+                                          child: TextFormField(
+                                            controller: priceInput,
+                                            cursorColor: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
+                                            maxLines: 10,
+                                            decoration: InputDecoration(
+                                              focusColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
+                                              filled: true,
+                                              enabledBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              focusedBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      width: 2,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              fillColor: Colors.grey[50],
+                                              border:
+                                                  const OutlineInputBorder(),
+                                              hintText: "300",
+                                              hintStyle: TextStyle(
+                                                  color: Colors.grey[400]),
+                                            ),
+                                            keyboardType: TextInputType.number,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          standardNavigator(
+                                              context, MyAccount());
+                                        },
+                                        child: const Text('Legg til bilde')),
+                                    Column(
+                                      children: [
                                         Row(
                                           children: [
                                             Checkbox(
@@ -221,6 +341,24 @@ class _CreateListingState extends State<CreateListing> {
                                         )
                                       ],
                                     ),
+                                    ElevatedButton(
+                                        //new Listings(listingID: "custom id", title: , description: description, availableFrom: availableFrom, availableTo: availableTo, category: category, price: price, gear: gear)
+                                        onPressed: () {
+                                          Listings listing = new Listings(
+                                              listingID: "",
+                                              userID: FirebaseAuth
+                                                  .instance.currentUser!.uid,
+                                              title: titleInput.text,
+                                              description:
+                                                  descriptionInput.text,
+                                              category: categoryInput.text,
+                                              price:
+                                                  stringToInt(priceInput.text));
+                                          FirestoreServices()
+                                              .postListing(listing);
+                                          print(listing.getDescription());
+                                        },
+                                        child: const Text('Publiser annonse')),
                                   ],
                                 ),
                               )),
@@ -238,4 +376,8 @@ class _CreateListingState extends State<CreateListing> {
             warningMsg: 'listing',
           );
   }
+}
+
+int stringToInt(String price) {
+  return int.parse(price);
 }
