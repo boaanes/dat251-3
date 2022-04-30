@@ -105,7 +105,7 @@ class _ListingPageState extends State<ListingPage> {
                                               ],
                                             ),
                                             Text(
-                                              _getPrice(el),
+                                              el.price.toString() + " kr",
                                               style: TextStyle(fontSize: 18),
                                             ),
                                           ],
