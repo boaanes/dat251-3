@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:utstyr/pages/account_page.dart';
 import 'package:utstyr/pages/createListing_page.dart';
 import 'package:utstyr/pages/home_page.dart';
 import 'package:utstyr/services/auth_services.dart';
@@ -32,13 +33,12 @@ Widget utstyrScaffold(context, bodyContent) {
           padding: const EdgeInsets.fromLTRB(50, 10, 75, 10),
           child: authStatus?.uid != null
               ? ElevatedButton(
-                  key: const ValueKey('signOutNavButton'),
                   style: ElevatedButton.styleFrom(
                       primary: const Color(0xff2C4C16)),
                   onPressed: () {
-                    AuthenticateService().signOut();
+                    standardNavigator(context, MyAccount());
                   },
-                  child: Text('Logg ut'))
+                  child: Text('Min side'))
               : ElevatedButton(
                   key: const ValueKey('loginNavButton'),
                   style: ElevatedButton.styleFrom(
