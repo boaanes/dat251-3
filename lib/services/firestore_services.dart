@@ -37,12 +37,21 @@ class FirestoreServices {
     }
     return new Listings(
         listingID: 'listingID',
+        userID: 'u1234',
         title: 'title',
         description: 'description',
-        availableFrom: DateTime.now(),
-        availableTo: DateTime.now(),
         category: 'category',
-        price: 0,
-        gear: ['gear', 'gear']);
+        price: 0);
+  }
+
+  Future<void> postListing(Listings listing) async {
+    var ref = FirebaseFirestore.instance.collection('listings');
+    await ref.add({
+      'userID': listing.userID,
+      'title': listing.title,
+      'category': listing.category,
+      'description': listing.description,
+      'price': listing.price
+    });
   }
 }
