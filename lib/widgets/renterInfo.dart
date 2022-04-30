@@ -29,6 +29,7 @@ Widget renterInfo(String renterid) {
             child: Column(
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
@@ -60,7 +61,7 @@ Widget renterInfo(String renterid) {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(25, 0, 15, 0),
+                      padding: EdgeInsets.fromLTRB(0, 0, 25, 0),
                       child: IconButton(
                         onPressed: () {},
                         icon: Icon(

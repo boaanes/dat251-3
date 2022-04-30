@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:utstyr/classes/listings.dart';
 import 'package:utstyr/pages/detailedListing_page.dart';
+import 'package:utstyr/pages/home_page.dart';
 import 'package:utstyr/pages/listing_page.dart';
 import 'package:utstyr/pages/login_page.dart';
 import 'package:utstyr/services/firestore_services.dart';
@@ -56,6 +57,20 @@ class _MyAccountState extends State<MyAccount> {
                         ),
                         Padding(
                             padding: EdgeInsets.all(25),
+                            child: InkWell(
+                              onTap: () {
+                                standardNavigator(context, RoomsPage());
+                              },
+                              child: Text(
+                                "Meldinger",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 22),
+                                textAlign: TextAlign.left,
+                              ),
+                            )),
+                        Padding(
+                            padding: EdgeInsets.all(25),
                             child: Text(
                               "Mine annonser",
                               style: TextStyle(
@@ -80,11 +95,18 @@ class _MyAccountState extends State<MyAccount> {
                             )),
                         Padding(
                             padding: EdgeInsets.all(25),
-                            child: Text(
-                              "Logg ut",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.normal, fontSize: 22),
-                              textAlign: TextAlign.left,
+                            child: InkWell(
+                              onTap: () async {
+                                await FirebaseAuth.instance.signOut();
+                                standardNavigator(context, Home());
+                              },
+                              child: Text(
+                                "Logg ut",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 22),
+                                textAlign: TextAlign.left,
+                              ),
                             ))
                       ])),
             ))));
