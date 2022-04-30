@@ -32,7 +32,7 @@ class FirestoreServices {
       return listings
           .where((listing) =>
               listing.category.contains(category) &&
-              listing.price < int.parse(filter))
+              listing.price <= int.parse(filter))
           .toList();
     } else {
       return listings

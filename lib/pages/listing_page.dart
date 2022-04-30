@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:utstyr/classes/listings.dart';
+import 'package:utstyr/pages/detailedListing_page.dart';
 import 'package:utstyr/services/firestore_services.dart';
+import 'package:utstyr/widgets/standardNavigator.dart';
 
 import '../widgets/bottombar.dart';
 import '../widgets/scaffold.dart';
@@ -93,7 +95,7 @@ class _ListingPageState extends State<ListingPage> {
                           : ElevatedButton(
                               onPressed: () {
                                 setState(() {
-                                  filter = maksPris.toString();
+                                  filter = maksController.text;
                                 });
                               },
                               child: Text('Søk')),
@@ -109,50 +111,59 @@ class _ListingPageState extends State<ListingPage> {
                           .filterListings(allListings, widget.category, filter)
                           .map((el) => Padding(
                                 padding: const EdgeInsets.all(25.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
-                                    color: Colors.white,
-                                  ),
-                                  width: 275,
-                                  height: 300,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15.0),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  el.title,
-                                                  style:
-                                                      TextStyle(fontSize: 17),
-                                                ),
-                                                Text(
-                                                  '', // +
-                                                  // testList[0]['størrelse'],
-                                                  style:
-                                                      TextStyle(fontSize: 13),
-                                                )
-                                              ],
-                                            ),
-                                            Text(
-                                              _getPrice(el),
-                                              style: TextStyle(fontSize: 18),
-                                            ),
-                                          ],
-                                        ),
-                                        Expanded(
-                                            child: Image.network(
-                                          'https://firebasestorage.googleapis.com/v0/b/dat251-3.appspot.com/o/Dp2K3VwY9ag1E0JrwVAs%2Fsplitboard2.png?alt=media&token=8349da52-cd6e-44a4-9e7a-ef81045b2c53',
-                                          filterQuality: FilterQuality.medium,
-                                        ))
-                                      ],
+                                child: InkWell(
+                                  onTap: () {
+                                    standardNavigator(
+                                        context,
+                                        SingleListingPage(
+                                          listingId: el.listingID,
+                                        ));
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color: Colors.white,
+                                    ),
+                                    width: 275,
+                                    height: 300,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(15.0),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    el.title,
+                                                    style:
+                                                        TextStyle(fontSize: 17),
+                                                  ),
+                                                  Text(
+                                                    '', // +
+                                                    // testList[0]['størrelse'],
+                                                    style:
+                                                        TextStyle(fontSize: 13),
+                                                  )
+                                                ],
+                                              ),
+                                              Text(
+                                                _getPrice(el),
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                            ],
+                                          ),
+                                          Expanded(
+                                              child: Image.network(
+                                            'https://firebasestorage.googleapis.com/v0/b/dat251-3.appspot.com/o/Dp2K3VwY9ag1E0JrwVAs%2Fsplitboard2.png?alt=media&token=8349da52-cd6e-44a4-9e7a-ef81045b2c53',
+                                            filterQuality: FilterQuality.medium,
+                                          ))
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
