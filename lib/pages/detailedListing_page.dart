@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expandable/expandable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -46,14 +47,24 @@ class _SingleListingPageState extends State<SingleListingPage> {
   DateTime finalEnd = DateTime.now();
   CarouselController carouselController = CarouselController();
   int price = 0;
+
+  List<String> _checkboxName = [
+    'Splitboard - 450 kr',
+    'Teleskopstaver - 50 kr ',
+    'Feller - 50 kr',
+    'Pakkepris - 500 kr'
+  ];
+
+  List<bool> _checkboxValue = [false, false, false, false];
+
+  @override
+  void initState() {
+    super.initState();
+    _checkboxValue = List<bool>.filled(_checkboxName.length, false);
+  }
+
   //int transactionPrice = 400;
   Widget build(BuildContext context) {
-    Map<String, bool> values = {
-      'Splitboard - 450 kr': false,
-      'Teleskopstaver - 50 kr ': false,
-      'Feller - 50 kr': false,
-      'Pakkepris - 500 kr': true,
-    };
     var allListings = Provider.of<List<Listings>>(context);
     Listings listing =
         FirestoreServices().listingByID(allListings, widget.listingId);
@@ -206,26 +217,27 @@ class _SingleListingPageState extends State<SingleListingPage> {
                                                 textAlign: TextAlign.left,
                                               ),
                                             ),
-                                            ListView(
-                                              shrinkWrap: true,
-                                              children:
-                                                  values.keys.map((String key) {
-                                                return new CheckboxListTile(
-                                                  controlAffinity:
-                                                      ListTileControlAffinity
-                                                          .leading,
-                                                  activeColor: lightGreen,
-                                                  title: Text(key),
-                                                  value: values[key],
-                                                  onChanged: (bool? value) {
-                                                    setState(() {
-                                                      values[key] =
-                                                          !values[key]!;
-                                                      print(values);
-                                                    });
-                                                  },
-                                                );
-                                              }).toList(),
+                                            Expanded(
+                                              child: ListView.builder(
+                                                itemCount: _checkboxName.length,
+                                                itemBuilder: (context, index) {
+                                                  return CheckboxListTile(
+                                                    title: Text(
+                                                      _checkboxName[index],
+                                                      style: TextStyle(
+                                                          fontSize: 15),
+                                                    ),
+                                                    value:
+                                                        _checkboxValue[index],
+                                                    onChanged: (bool? value) {
+                                                      setState(() {
+                                                        _checkboxValue[index] =
+                                                            value!;
+                                                      });
+                                                    },
+                                                  );
+                                                },
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -278,7 +290,7 @@ class _SingleListingPageState extends State<SingleListingPage> {
                                     height: defaultHeight * 0.5,
                                     child: Padding(
                                       padding: EdgeInsets.all(bigpadding - 4),
-                                      child: renterInfo('renter123'),
+                                      child: renterInfo(listing.userID),
                                     )),
                               ),
                               Padding(
