@@ -240,7 +240,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     Text(
-                      'Annonser nær deg',
+                      'Annonser du kanskje liker',
                       style: TextStyle(fontSize: 24),
                     ),
                     Padding(
