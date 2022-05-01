@@ -158,10 +158,8 @@ class _ListingPageState extends State<ListingPage> {
                                             ],
                                           ),
                                           Expanded(
-                                              child: Image.network(
-                                            'https://firebasestorage.googleapis.com/v0/b/dat251-3.appspot.com/o/Dp2K3VwY9ag1E0JrwVAs%2Fsplitboard2.png?alt=media&token=8349da52-cd6e-44a4-9e7a-ef81045b2c53',
-                                            filterQuality: FilterQuality.medium,
-                                          ))
+                                              child: FirestoreServices()
+                                                  .getImage(el))
                                         ],
                                       ),
                                     ),

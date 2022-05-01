@@ -254,7 +254,7 @@ class _HomeState extends State<Home> {
                                   standardNavigator(
                                       context,
                                       SingleListingPage(
-                                        listingId: allListings[2].listingID,
+                                        listingId: 'Dp2K3VwY9ag1E0JrwVAs',
                                       ))
                                 },
                                 child: Container(
@@ -277,7 +277,10 @@ class _HomeState extends State<Home> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  allListings[2].title,
+                                                  FirestoreServices()
+                                                      .listingByID(allListings,
+                                                          'Dp2K3VwY9ag1E0JrwVAs')
+                                                      .title,
                                                   style:
                                                       TextStyle(fontSize: 17),
                                                 ),
@@ -290,7 +293,11 @@ class _HomeState extends State<Home> {
                                               ],
                                             ),
                                             Text(
-                                              allListings[2].price.toString() +
+                                              FirestoreServices()
+                                                      .listingByID(allListings,
+                                                          'Dp2K3VwY9ag1E0JrwVAs')
+                                                      .price
+                                                      .toString() +
                                                   ' kr',
                                               style: TextStyle(fontSize: 13),
                                             ),
@@ -315,7 +322,8 @@ class _HomeState extends State<Home> {
                                   standardNavigator(
                                       context,
                                       SingleListingPage(
-                                        listingId: allListings[3].listingID,
+                                        listingId:
+                                            'e06a0bdd-2fee-4232-810c-26746bcaa163',
                                       ))
                                 },
                                 child: Container(
@@ -338,7 +346,10 @@ class _HomeState extends State<Home> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  allListings[3].title,
+                                                  FirestoreServices()
+                                                      .listingByID(allListings,
+                                                          'e06a0bdd-2fee-4232-810c-26746bcaa163')
+                                                      .title,
                                                   style:
                                                       TextStyle(fontSize: 17),
                                                 ),
@@ -351,7 +362,11 @@ class _HomeState extends State<Home> {
                                               ],
                                             ),
                                             Text(
-                                              allListings[3].price.toString() +
+                                              FirestoreServices()
+                                                      .listingByID(allListings,
+                                                          'e06a0bdd-2fee-4232-810c-26746bcaa163')
+                                                      .price
+                                                      .toString() +
                                                   ' kr',
                                               style: TextStyle(fontSize: 13),
                                             ),
@@ -359,7 +374,7 @@ class _HomeState extends State<Home> {
                                         ),
                                         Expanded(
                                             child: Image.network(
-                                          'https://firebasestorage.googleapis.com/v0/b/dat251-3.appspot.com/o/FnPHO9x1owbEKYzhADJJ%2Fkajakk.png?alt=media&token=55696354-89c1-4c34-b49c-5bf62c535216',
+                                          'https://firebasestorage.googleapis.com/v0/b/dat251-3.appspot.com/o/e06a0bdd-2fee-4232-810c-26746bcaa16%2Fsykkel2.jpg?alt=media&token=28c364cf-37c6-4d35-adcd-871af977ef71',
                                           filterQuality: FilterQuality.medium,
                                         ))
                                       ],
@@ -376,7 +391,7 @@ class _HomeState extends State<Home> {
                                   standardNavigator(
                                       context,
                                       SingleListingPage(
-                                        listingId: allListings[4].listingID,
+                                        listingId: 'lB81f4rWaDheK4jsJZn6',
                                       ))
                                 },
                                 child: Container(
@@ -399,7 +414,10 @@ class _HomeState extends State<Home> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  allListings[4].title,
+                                                  FirestoreServices()
+                                                      .listingByID(allListings,
+                                                          'lB81f4rWaDheK4jsJZn6')
+                                                      .title,
                                                   style:
                                                       TextStyle(fontSize: 17),
                                                 ),
@@ -412,7 +430,11 @@ class _HomeState extends State<Home> {
                                               ],
                                             ),
                                             Text(
-                                              allListings[4].price.toString() +
+                                              FirestoreServices()
+                                                      .listingByID(allListings,
+                                                          'lB81f4rWaDheK4jsJZn6')
+                                                      .price
+                                                      .toString() +
                                                   ' kr',
                                               style: TextStyle(fontSize: 13),
                                             ),
@@ -420,7 +442,7 @@ class _HomeState extends State<Home> {
                                         ),
                                         Expanded(
                                             child: Image.network(
-                                          'https://firebasestorage.googleapis.com/v0/b/dat251-3.appspot.com/o/VDq2FsZaW80NkHqgki3h%2Frandoneeski.png?alt=media&token=3548c768-ca8d-48aa-aeed-3e4a1df17a48',
+                                          'https://firebasestorage.googleapis.com/v0/b/dat251-3.appspot.com/o/lB81f4rWaDheK4jsJZn6%2Frandonee1.jpg?alt=media&token=5d4eaef9-84e6-43ac-9830-5a9353adb1b3',
                                           filterQuality: FilterQuality.medium,
                                         )),
                                       ],
@@ -443,19 +465,19 @@ class _HomeState extends State<Home> {
     {
       'title': 'Splitboard utstyr',
       'price': '100kr - 400kr',
-      'størrelse': 'EU 45 - 160cm',
+      'størrelse': 'EU 44 - 160cm',
       'image': 'assets/images/splitboard1.png'
     },
     {
       'title': 'Kajakk',
       'price': '400kr',
-      'størrelse': '320cm',
+      'størrelse': '18"',
       'image': 'assets/images/kajakk.png'
     },
     {
       'title': 'Randoneeski',
       'price': '200kr - 500kr',
-      'størrelse': 'EU 43 - 155cm',
+      'størrelse': 'EU 45 - 168cm',
       'image': 'assets/images/randoneeski.png'
     }
   ];

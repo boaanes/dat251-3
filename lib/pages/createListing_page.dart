@@ -170,6 +170,8 @@ class _CreateListingState extends State<CreateListing> {
                                         Container(
                                           width: 500,
                                           child: TextFormField(
+                                            keyboardType:
+                                                TextInputType.multiline,
                                             controller: descriptionInput,
                                             cursorColor: Theme.of(context)
                                                 .colorScheme
