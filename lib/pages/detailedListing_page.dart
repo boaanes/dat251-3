@@ -49,7 +49,7 @@ class _SingleListingPageState extends State<SingleListingPage> {
   int price = 0;
 
   List<String> _checkboxName = [
-    'Splitboard - 450 kr',
+    'Randonee ski - 450 kr',
     'Teleskopstaver - 50 kr ',
     'Feller - 50 kr',
     'Pakkepris - 500 kr'
@@ -72,7 +72,15 @@ class _SingleListingPageState extends State<SingleListingPage> {
     if (transactionPrice == 0) {
       transactionPrice = price;
     }
-    //List images = listing.getImages();
+
+    if (listing.listingID == 'Dp2K3VwY9ag1E0JrwVAs') {
+      _checkboxName = [
+        'Splitboard - 450 kr',
+        'Teleskopstaver - 50 kr ',
+        'Feller - 50 kr',
+        'Pakkepris - 500 kr'
+      ];
+    }
 
     return Material(
         child: utstyrScaffold(
@@ -110,9 +118,12 @@ class _SingleListingPageState extends State<SingleListingPage> {
                             Align(
                               alignment: Alignment.center,
                               child: CarouselSlider(
-                                carouselController: carouselController,
-                                options: CarouselOptions(height: contentHeight),
-                                items: [
+                                  carouselController: carouselController,
+                                  options:
+                                      CarouselOptions(height: contentHeight),
+                                  items: FirestoreServices().getImages(listing)
+
+                                  /*[
                                   Image.network(
                                       'https://firebasestorage.googleapis.com/v0/b/dat251-3.appspot.com/o/Dp2K3VwY9ag1E0JrwVAs%2Fsplitboard1.png?alt=media&token=e12700ed-a5e6-46b0-beae-6cd5dcfa54b0'),
                                   Image.network(
@@ -121,8 +132,8 @@ class _SingleListingPageState extends State<SingleListingPage> {
                                       'https://firebasestorage.googleapis.com/v0/b/dat251-3.appspot.com/o/Dp2K3VwY9ag1E0JrwVAs%2Fsplitboard3.png?alt=media&token=48126bd0-5794-4eb7-921c-a38cf864bfa6'),
                                   Image.network(
                                       'https://firebasestorage.googleapis.com/v0/b/dat251-3.appspot.com/o/Dp2K3VwY9ag1E0JrwVAs%2Fsplitboard4.png?alt=media&token=6cd39d12-0d3f-43db-a75a-ccc8e8c4d7fd'),
-                                ],
-                              ),
+                                ],*/
+                                  ),
                             ),
                             Padding(
                               padding: EdgeInsets.all(bigpadding),
